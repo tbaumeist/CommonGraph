@@ -1,4 +1,4 @@
 CommonGraph
 ===========
 
-Library of common graph has opertions.
+Library of common graph operations.
