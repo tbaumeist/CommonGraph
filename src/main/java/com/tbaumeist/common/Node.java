@@ -2,7 +2,9 @@ package com.tbaumeist.common;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.tbaumeist.common.Utils.CircleList;
 import com.tbaumeist.common.Utils.DistanceTools;
@@ -48,22 +50,60 @@ public class Node extends INode {
 
         return ns;
     }
+    
+    public List<Node> getAllNeighborsInXHops(int lookAheadHops) {
+        return getAllNeighborsInXHops(lookAheadHops, null);
+    }
+    
+    public List<Node> getAllNeighborsInXHops(int lookAheadHops, List<Node> excludeNodes) {
+        
+        ArrayList<Set<Node>> arrayNodeLists = new ArrayList<Set<Node>>();
+        getAllNeighborsAtHop(lookAheadHops, 1, arrayNodeLists, excludeNodes);
+        
+        List<Node> neighbors = new CircleList<Node>();
+        for(Set<Node> n : arrayNodeLists){
+            neighbors.addAll(n);
+        }
+        
+        return neighbors;
+    }
+    
+    private void getAllNeighborsAtHop(final int maxLookAhead, int curLookAhead, ArrayList<Set<Node>> arrayNodeLists, List<Node> excludeNodes){
+ 
+        if(curLookAhead < 1 || curLookAhead > maxLookAhead)
+            return;
+        
+        Set<Node> thisHop = new HashSet<Node>();
+        
+        if(curLookAhead == 1) {
+            thisHop.addAll(getDirectNeighbors(excludeNodes));
+        } else {
+            Set<Node> previousHop = arrayNodeLists.get(curLookAhead-2);
+            for(Node n : previousHop){
+                thisHop.addAll(n.getDirectNeighbors(excludeNodes));
+            }
+            // remove previous hops
+            for(Set<Node> alreadyDoneHops : arrayNodeLists){
+                thisHop.removeAll(alreadyDoneHops);
+            }
+            // remove this node
+            thisHop.remove(this);
+        }
+        
+        arrayNodeLists.add(curLookAhead - 1, thisHop);
+        
+        // get the next level of hops
+        getAllNeighborsAtHop(maxLookAhead, curLookAhead + 1, arrayNodeLists, excludeNodes);
+    }
 
     public Node getNextClosestPeerExcluding(double loc,
-            List<Node> excludeNodes, boolean onlyCloserThenMe) {
+            List<Node> excludeNodes, boolean onlyCloserThenMe, int lookAheadHops) {
 
-        List<_Node> neighbors = new ArrayList<_Node>();
-        // 1 hop neighbors
-        for (Node n : getDirectNeighbors(excludeNodes)) {
-            neighbors.add(new _Node(n, n.getLocation()));
-        }
-
-        // 2 hop neighbors
-        getindirectNeighbors(excludeNodes, neighbors);
-
-        _Node closest = null;
+        List<Node> neighbors = getAllNeighborsInXHops(lookAheadHops, excludeNodes);
+        
+        Node closest = null;
         double closestDiff = 1;
-        for (_Node n : neighbors) {
+        for (Node n : neighbors) {
             double diff = DistanceTools.getDistance(n.getLocation(), loc);
 
             if (closest == null) {
@@ -84,22 +124,7 @@ public class Node extends INode {
                         loc))
             return null;
 
-        return closest.getNode();
-    }
-
-    private void getindirectNeighbors(List<Node> excludeNodes,
-            List<_Node> neighbors) {
-        for (Node n : getDirectNeighbors(excludeNodes)) {
-            for (Node n2 : n.getDirectNeighbors(excludeNodes)) {
-                Node tmp = new Node(n2.getLocation(), "");
-                if (!neighbors.contains(tmp)) {
-                    neighbors.add(new _Node(n, tmp.getLocation()));
-                } else {
-                    // increment tie counter
-                    neighbors.get(neighbors.indexOf(tmp)).tie();
-                }
-            }
-        }
+        return closest;
     }
 
     @Override
@@ -119,92 +144,5 @@ public class Node extends INode {
         String[] parts = s.split(DELIMITER);
         double loc = Double.parseDouble(parts[0]);
         return new Node(loc, parts[1]);
-    }
-
-    public List<SubRange> getPathsOut() {
-        List<Node> ignoreNodes = new ArrayList<Node>();
-        ignoreNodes.add(this);
-        return getPathsOut(ignoreNodes, false);
-    }
-
-    public List<SubRange> getPathsOut(List<Node> ignoreNodes,
-            boolean includeSelf) {
-        List<_Node> allPeers = new CircleList<_Node>();
-        List<Node> directPeers = getDirectNeighbors(ignoreNodes);
-
-        // 2 hop neighbors
-        getindirectNeighbors(ignoreNodes, allPeers);
-
-        // direct peers get preference or peer of peer
-        allPeers.removeAll(directPeers); // remove peer of peer entry
-        for (Node n : directPeers) {
-            allPeers.add(new _Node(n, n.getLocation()));
-        }
-
-        // add current node so it can detect when it is the closest
-        if (includeSelf)
-            allPeers.add(new _Node(this, this.getLocation()));
-
-        Collections.sort(allPeers);
-
-        // calculate the mid points
-        for (int i = 0; i < allPeers.size(); i++) {
-            allPeers.get(i).setMid(
-                    DistanceTools.calcMidPt(allPeers.get(i).getLocation(),
-                            allPeers.get(i + 1).getLocation()));
-        }
-
-        List<SubRange> rangesList = new CircleList<SubRange>();
-        for (int i = 0; i < allPeers.size(); i++) {
-            rangesList.add(new SubRange(allPeers.get(i).getNode(), new Edge(
-                    allPeers.get(i - 1).getMid()), new Edge(allPeers.get(i)
-                    .getMid()), allPeers.get(i).getTieCount(), allPeers.get(i)
-                    .getNode() == this));
-        }
-        // buildRangeLists(rangesList, allPeers, 0);
-
-        return rangesList;
-    }
-
-    private class _Node extends INode {
-        private Node node;
-        private double mid;
-        private int ties = 0;
-
-        public _Node(double l) {
-            this.location = l;
-            this.tie();
-        }
-
-        public _Node(Node n, double l) {
-            this(l);
-            this.node = n;
-        }
-
-        public void tie() {
-            this.ties++;
-        }
-
-        public int getTieCount() {
-            return this.ties;
-        }
-
-        public Node getNode() {
-            return this.node;
-        }
-
-        public void setMid(double m) {
-            this.mid = m;
-        }
-
-        public double getMid() {
-            return this.mid;
-        }
-
-        @Override
-        public String toString() {
-            return this.getLocation() + " (" + this.getNode().getLocation()
-                    + ")";
-        }
     }
 }
