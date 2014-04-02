@@ -14,13 +14,13 @@ public abstract class ITopologyFileReader {
         return canRead(getFileStream(fileName));
     }
 
-    protected abstract boolean canRead(InputStream topInput) throws Exception;
+    public abstract boolean canRead(InputStream topInput) throws Exception;
 
     public Topology readFromFile(String fileName) throws Exception {
         return readFromFile(getFileStream(fileName));
     }
 
-    protected abstract Topology readFromFile(InputStream topInput)
+    public abstract Topology readFromFile(InputStream topInput)
             throws Exception;
 
     private InputStream getFileStream(String fileName) throws Exception {
