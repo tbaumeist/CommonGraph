@@ -1,6 +1,6 @@
 package com.tbaumeist.common;
 
-import com.tbaumeist.common.Utils.DistanceTools;
+import com.tbaumeist.common.utils.DistanceTools;
 
 
 public class Edge {

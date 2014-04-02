@@ -1,4 +1,4 @@
-package com.tbaumeist.common.Utils;
+package com.tbaumeist.common.utils;
 
 import java.util.ArrayList;
 import java.util.List;

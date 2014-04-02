@@ -6,8 +6,8 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.tbaumeist.common.Utils.CircleList;
-import com.tbaumeist.common.dataFileReaders.Helper;
+import com.tbaumeist.common.testing.TestHelper;
+import com.tbaumeist.common.utils.CircleList;
 import com.tbaumeist.common.dataFileReaders.TopologyFileReaderManager;
 
 public class TestNode {
@@ -31,7 +31,7 @@ public class TestNode {
     @Test
     public void oneHopAway() throws Exception {
         TopologyFileReaderManager topReader = new TopologyFileReaderManager();
-        Topology top = topReader.readFromFile(Helper
+        Topology top = topReader.readFromFile(TestHelper
                 .getResourcePath("topology-50-4-full.dot"));
         assertTrue(top != null);
         
@@ -57,7 +57,7 @@ public class TestNode {
     @Test
     public void twoHopAway() throws Exception {
         TopologyFileReaderManager topReader = new TopologyFileReaderManager();
-        Topology top = topReader.readFromFile(Helper
+        Topology top = topReader.readFromFile(TestHelper
                 .getResourcePath("topology-50-4-full.dot"));
         assertTrue(top != null);
         

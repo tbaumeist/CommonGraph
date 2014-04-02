@@ -1,7 +1,7 @@
 package com.tbaumeist.common;
 
 import java.util.*;
-import com.tbaumeist.common.Utils.*;
+import com.tbaumeist.common.utils.*;
 
 public class Topology {
 

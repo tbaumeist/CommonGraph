@@ -6,8 +6,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.tbaumeist.common.Utils.CircleList;
-import com.tbaumeist.common.Utils.DistanceTools;
+import com.tbaumeist.common.utils.CircleList;
+import com.tbaumeist.common.utils.DistanceTools;
 
 
 public class Node extends INode {

@@ -1,13 +1,14 @@
-package com.tbaumeist.common.dataFileReaders;
+package com.tbaumeist.common.testing;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 
-import com.tbaumeist.common.Utils.PathBuilder;
+import com.tbaumeist.common.utils.PathBuilder;
 
 
-public class Helper {
+
+public class TestHelper {
     private final static String resourcePath = PathBuilder.path("src","test","resources");
 
     public static String getResourcePath() {

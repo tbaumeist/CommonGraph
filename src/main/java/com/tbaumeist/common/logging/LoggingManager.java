@@ -7,10 +7,14 @@ import java.util.logging.Logger;
 
 public class LoggingManager {
     public static void initialize(){
+        initialize(Level.SEVERE);
+    }
+    
+    public static void initialize(Level level){
         Logger logger = Logger.getLogger("");
         for (Handler h : logger.getHandlers()) {
             h.setFormatter(new ReallySimpleFormatter());
-            h.setLevel(Level.SEVERE);
+            h.setLevel(level);
         }
     }
     
