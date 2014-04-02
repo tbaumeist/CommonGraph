@@ -13,12 +13,26 @@ import com.tbaumeist.common.Utils.DistanceTools;
 public class Node extends INode {
 
     private List<Node> neighbors = new CircleList<Node>();
+    
+    private int degreeTarget = -1;
 
     private final static String DELIMITER = "&&";
 
     public Node(double loc, String id) {
         this.location = loc;
         this.id = id;
+    }
+    
+    public void setDegreeTarget(int degree){
+        this.degreeTarget = degree;
+    }
+    
+    public int getDegreeTarget(){
+        return this.degreeTarget;
+    }
+    
+    public boolean atDegree(){
+        return this.neighbors.size() >= this.degreeTarget;
     }
 
     public void addNeighbor(Node node) {
@@ -137,12 +151,16 @@ public class Node extends INode {
         b.append(this.location);
         b.append(DELIMITER);
         b.append(this.id);
+        b.append(DELIMITER);
+        b.append(this.degreeTarget);
         return b.toString();
     }
 
     public static Node deserialize(String s) {
         String[] parts = s.split(DELIMITER);
         double loc = Double.parseDouble(parts[0]);
-        return new Node(loc, parts[1]);
+        Node n = new Node(loc, parts[1]);
+        n.setDegreeTarget(Integer.parseInt(parts[2]));
+        return n;
     }
 }

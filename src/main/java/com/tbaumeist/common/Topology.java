@@ -35,12 +35,14 @@ public class Topology {
     }
 
     public void addNode(Node node) {
-        if (this.nodes.contains(node))
-            return;
-        if (node.getLocation() == NOT_INITED_LOC)
-            return;
+        this.checkAddNode(node);
+        Collections.sort(this.nodes);
+    }
 
-        this.nodes.add(node);
+    public void addAllNodes(Collection<Node> nodes) {
+        //for(Node n : nodes)
+        //    this.checkAddNode(n);
+        this.nodes.addAll(nodes);
         Collections.sort(this.nodes);
     }
 
@@ -59,5 +61,13 @@ public class Topology {
                 removeNodes.add(n);
         }
         getAllNodes().removeAll(removeNodes);
+    }
+
+    private void checkAddNode(Node node) {
+        if (this.nodes.contains(node))
+            return;
+        if (node.getLocation() == NOT_INITED_LOC)
+            return;
+        this.nodes.add(node);
     }
 }
