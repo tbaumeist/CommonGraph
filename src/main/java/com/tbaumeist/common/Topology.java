@@ -45,6 +45,19 @@ public class Topology {
         this.nodes.addAll(nodes);
         Collections.sort(this.nodes);
     }
+    
+    public int getEdgeCount(){
+        int count = 0;
+        
+        for(Node n : this.getAllNodes()){
+            count += n.getDirectNeighbors().size();
+        }
+        
+        assert count % 2 == 0;
+        count = count / 2; // counted each edge twice
+        
+        return count;
+    }
 
     public void clearOneWayConnections() {
         List<Node> removeNodes = new ArrayList<Node>();

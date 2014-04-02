@@ -82,6 +82,10 @@ public class Node extends INode {
         return neighbors;
     }
     
+    public Node clone(){
+        return new Node(this.getLocation(), this.getID());
+    }
+    
     private void getAllNeighborsAtHop(final int maxLookAhead, int curLookAhead, ArrayList<Set<Node>> arrayNodeLists, List<Node> excludeNodes){
  
         if(curLookAhead < 1 || curLookAhead > maxLookAhead)
