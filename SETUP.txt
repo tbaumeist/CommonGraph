@@ -16,7 +16,7 @@ Setup Project in Eclipse
 4. Building the project.
 	a. Right click project -> Run As -> Maven build ... -> enter "clean install" in goals -> run. Note: this will kick off a maven build.
 	b. To build any time in the future go to the RUN icon and select run configuration we made in set (a).
-	Note: can be tricky to get maven to build the first time. If you get the error unable to locate Java compiler, then configure Window->Preferences->Installed JREs and add your SDK (not JRE) folder and set it as the default environment.
+	Note: can be tricky to get maven to build the first time. If you get the error unable to locate Java compiler, then configure Window->Preferences->Java->Installed JREs and add your SDK (not JRE) folder and set it as the default environment.
 	
 5. Debugging the project.
 	a. Create a new test case in src/test/java
