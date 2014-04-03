@@ -25,7 +25,7 @@ Setup Project in Eclipse
 	d. Right click on the class -> Debug As -> JUnit Test
 	
 6. Updating source code from GitHub (Should be done everytime before working on the project)
-	a. Right click project -> Team -> Fetch from Upstream
+	a. Right click project -> Team -> Pull
 	
 7. Committing changes to GitHub
 	a. Make some small change to a file to test a commit if you haven't already.
