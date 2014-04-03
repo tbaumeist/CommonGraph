@@ -11,9 +11,26 @@ Setup Project in Eclipse
 3. Import the GitHub project into eclipse.
 	a. File -> Import -> Git - > Projects from Git -> GitHub -> [enter project name] -> search
 	b. Select the project. It should always start tbaumeist/* if it is from me.
-	c. master -> [change destination directory to be where you want to store the project files] -> Use the New Project Wizard -> Finish
-	d. New Project Wizard -> 
+	c. master -> [change destination directory to be where you want to store the project files] -> Import existing projects -> Finish
 
-4. Build the project.
-	Note can be tricky to get maven to build the first time. If you get the error unable to locate Java compiler, then configure Window->Preferences->Installed JREs and add your SDK (not JRE) folder and set it as the default environment.
-	a. 
+4. Building the project.
+	a. Right click project -> Run As -> Maven build ... -> enter "clean install" in goals -> run. Note: this will kick off a maven build.
+	b. To build any time in the future go to the RUN icon and select run configuration we made in set (a).
+	Note: can be tricky to get maven to build the first time. If you get the error unable to locate Java compiler, then configure Window->Preferences->Installed JREs and add your SDK (not JRE) folder and set it as the default environment.
+	
+5. Debugging the project.
+	a. Create a new test case in src/test/java
+	b. Setup test case to reproduce conditions you desire.
+	c. Set break points.
+	d. Right click on the class -> Debug As -> JUnit Test
+	
+6. Updating source code from GitHub (Should be done everytime before working on the project)
+	a. Right click project -> Team -> Fetch from Upstream
+	
+7. Committing changes to GitHub
+	a. Make some small change to a file to test a commit if you haven't already.
+	b. Right click project -> Team -> Commit..
+	c. If config window pops up enter your gitHub username and email address.
+	d. Select files to commit.	
+	e. Commit and push
+	f. If prompts user name and password enter GItHub user name and password.
