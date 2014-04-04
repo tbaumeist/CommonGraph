@@ -4,7 +4,7 @@
   <artifactId>CommonGraph</artifactId>
   <version>0.0.1</version>
   <name>Common Graph</name>
-  <description>Libray of common graph operations.</description>
+  <description>Library of common graph operations.</description>
   <dependencies>
   	<dependency>
   		<groupId>junit</groupId>
