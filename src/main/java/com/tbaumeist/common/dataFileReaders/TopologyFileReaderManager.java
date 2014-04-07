@@ -4,7 +4,6 @@ import java.io.ByteArrayInputStream;
 
 import com.tbaumeist.common.Topology;
 
-
 public class TopologyFileReaderManager {
     private ITopologyFileReader topReader[];
 
